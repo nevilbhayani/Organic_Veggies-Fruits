@@ -1,0 +1,46 @@
+{% extends "base.html" %}{%block body%}
+
+
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">Login Page</h1>
+</div>
+
+<div class="container-fluid contact py-5">
+    <div class="container py-5">
+        <div class="p-5 bg-light rounded">
+            <div class="row g-4" alig-item="center">
+                <div class="col-12">
+                    <div class="text-center mx-auto" style="max-width: 700px;">
+                        <h1 class="text-primary">Login Here</h1>
+                    </div>
+                </div>
+                <center>
+                    <div class="col-lg-7">
+                        <form action="" class="" method="post">
+                            {% if messages %}
+                            {% for message in messages %}
+                            <div class="alert alert-primary" role="alert">
+                                {{ message }}
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+
+                            {%csrf_token%}
+                            <input type="text" class="w-100 form-control border-0 py-3 mb-4"
+                                placeholder="Enter Your Username" name="username">
+                            <input type="password" class="w-100 form-control border-0 py-3 mb-4"
+                                placeholder="Enter Your password" name="password">
+                            <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary "
+                                type="submit">Submit</button>
+                        </form>
+                    </div>
+                    <br>
+                    <p>New user? <a href="{%url 'reg'%}">Register here</a></p>
+                </center>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{%endblock%}
