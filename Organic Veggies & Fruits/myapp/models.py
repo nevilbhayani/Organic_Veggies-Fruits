@@ -1,46 +1,43 @@
 from django.db import models
-
+from django.contrib.auth.models import User 
 # Create your models here.
-from django.db import models
-from django.utils import timezone
-from decimal import Decimal
 
-# Create your models here.
-class Category(models.Model):
-    name = models.CharField(max_length=20)
 
-    def _str_(self) -> str:
-        return self.name
+class catagory(models.Model):
+    cname=models.CharField(max_length=50)
 
-class Product(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='products')
-    name = models.CharField(max_length=50)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    quantity = models.PositiveIntegerField()
+    def __str__(self):
+        return self.cname
+    
 
-    def _str_(self) -> str:
-        return self.name
+class product(models.Model):
+    catogary=models.ForeignKey(catagory,on_delete=models.SET_NULL,null=True)
+    pname=models.CharField(max_length=30)
+    pprice=models.IntegerField()
+    qty=models.IntegerField()
+    pimg=models.ImageField()
 
-class Cart(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, related_name='cart_items')
-    quantity = models.PositiveIntegerField()
+    def __str__(self):
+        return self.pname
 
-    def _str_(self) -> str:
-        return f"{self.quantity} of {self.product.name}"
+class cart(models.Model):
+    userid=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
+    pid=models.ForeignKey(product,on_delete=models.SET_NULL,null=True)
+    qty=models.IntegerField()
 
-class Order(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, related_name='orders')
-    quantity = models.PositiveIntegerField()
-    total = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    date = models.DateTimeField(default=timezone.now)
-    amount = models.DecimalField(default=0, max_digits=10, decimal_places=2, blank=True, null=True)
+    def __str__(self):
+        return self.pid.pname,self.pid.qty
 
-    def save(self, *args, **kwargs):
-        if self.total is None:
-            self.total = self.quantity * self.product.price
-        if self.amount == 0:
-            self.amount = self.total
-        super().save(*args, **kwargs)
+class order(models.Model):
+    userid=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
+    cname=models.CharField(max_length=30)
+    pname=models.CharField(max_length=30)
+    pprice=models.IntegerField()
+    qty=models.IntegerField()
+    pimg=models.ImageField()
 
-    def _str_(self) -> str:
-        return f"Order of {self.quantity} {self.product.name}(s) on {self.date}"
+    def __str__(self):
+        return self.pname
+    
+    def __str__(self):
+        return self.cname

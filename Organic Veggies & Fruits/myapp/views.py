@@ -49,12 +49,12 @@ def loginpage(request):
 
         if not User.objects.filter(username=username).exists():
             messages.info(request, "Invalid credentials1")
-            return redirect("login.html")
+            return redirect("login")
         
         user = authenticate(username=username, password=password)
         if user is None:
             messages.info(request, "Invalid credentials")
-            return redirect("login.html")
+            return redirect("login")
         else:
             login(request, user)
             return redirect("cart")
@@ -73,13 +73,13 @@ def regpage(request):
 
           if User.objects.filter(username=username).exists():
             messages.info(request,"Username exists !!!")
-            return redirect("registration.html")
+            return redirect("reg")
 
           else:
             user =  User.objects.create(first_name=fname,last_name=lname,username=username,email=email)
             user.set_password(password)
             user.save()
             messages.info(request,"Registration successfully !!!")
-            return redirect("registration.html")
+            return redirect("reg")
 
      return render(request,"registration.html")
