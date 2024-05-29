@@ -18,7 +18,7 @@ def shopdetail (request):
 
 @login_required(login_url="login")
 def cart(request):
-
+    
     return render(request,'cart.html', {'username': request.user.username})
 
 def chackout(request):
