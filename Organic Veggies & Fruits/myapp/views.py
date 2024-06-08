@@ -3,10 +3,14 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from .models import *
+
 
 
 def index(request):
-    return render(request, "index.html", {'username': request.user.username})
+    products = Product.objects.all()
+    return render(request, "index.html",{'products': products})
 
 def shop(request):
     return render(request, "shop.html", {'username': request.user.username})
@@ -18,8 +22,18 @@ def shopdetail (request):
 
 @login_required(login_url="login")
 def cart(request):
-    
-    return render(request,'cart.html', {'username': request.user.username})
+
+    cartdata =  Cart.objects.filter(user=request.user)
+    return render(request,'cart.html', {'username': request.user.username,'cartdata':cartdata})
+
+
+@login_required(login_url="login")
+def addtocart(request,id):
+
+        productObject = Product.objects.get(id=id)
+        Cart.objects.create(user=request.user,product=productObject,qty=1)
+        return redirect("index")
+
 
 def chackout(request):
     return render(request,"chackout.html", {'username': request.user.username})
