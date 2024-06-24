@@ -16,7 +16,11 @@ urlpatterns = [
     path('login/',loginpage,name="login"),
     path('registration/',regpage,name="reg"),
     path("logout/",logoutpage,name="logout"),
-    path("addtocart/<id>",addtocart,name="addtocart")
+    path("addtocart/<id>",addtocart,name="addtocart"),
+    path("delete/<id>",delete,name="delete"),
+    path("plus/<id>",plus,name="plus"),
+    path("minus/<id>",minus,name="minus"),
+    path("verify-otp", otp_verification, name="otp_verification"),
 ]
 
 if settings.DEBUG:
